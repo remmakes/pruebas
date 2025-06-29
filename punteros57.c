@@ -20,45 +20,45 @@ typedef struct
     float precio;
 }sProductos;
 
-void Carga(sProductos []);
+void Carga(sProductos *);
 
 int main()
 {
     sProductos pruebita[2];
-    sProductos *pP1, *pP2;
-    Carga(pruebita);
-    pP1=&pruebita[0];
-    pP2=&pruebita[1];
-    printf("\nMostrando con pP1");
-    printf("\nEl codigo del producto es:%d",pP1->codigo);
-    printf("\nLa descripcion del producto es: %s",pP1->descripcion);
-    printf("\nEl precio es: %.2f",pP1->precio);
+    sProductos *pP1;
+    pP1=pruebita;
+    Carga(pP1);
+    for (int i = 0; i < 2; i++)
+    {
+        printf("\nEl codigo es: %d, la descripcion es %s,el precio es %.2f",(pP1+i)->codigo,(pP1+i)->descripcion,(pP1+i)->precio);
+    }
 
-    printf("\nMostrando con pP2");
-    printf("\nEl codigo del producto es:%d",(*pP2).codigo);
-    printf("\nLa descripcion del producto es: %s",(*pP2).descripcion);
-    printf("\nEl precio es: %.2f",(*pP2).precio);
-
+    for (int i = 0; i < 2; i++)
+    {
+        printf("\nEl codigo es: %d, la descripcion es %s,el precio es %.2f",(*(pP1+i)).codigo,(*(pP1+i)).descripcion,(*(pP1+i)).precio);
+    }
+    
+    
     return 0;
 }
 
-void Carga (sProductos ve[])
+void Carga (sProductos *p)
 {
     int largo;
     for (int i = 0; i < 2; i++)
     {
         printf("Ingrese codigo: ");
-        scanf("%d",&ve[i].codigo);
+        scanf("%d",&p->codigo);
         getchar();
         printf("\nIngrese descripcion:");
-        fgets(ve[i].descripcion,31,stdin);       
-        largo=strlen(ve[i].descripcion);
-        if (ve[i].descripcion[largo-1]=='\n')
+        fgets(p->descripcion,31,stdin);       
+        largo=strlen(p->descripcion);
+        if (p->descripcion[largo-1]=='\n')
         {
-            ve[i].descripcion[largo-1]='\0';
+            p->descripcion[largo-1]='\0';
         }
         printf("\nIngrese precio: ");
-        scanf("%f",&ve[i].precio);
-    }
-    
+        scanf("%f",&p->precio);
+        p++;
+    }   
 }
