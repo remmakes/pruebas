@@ -1,32 +1,25 @@
-/*5.4 Hacer un programa que cargue un vector de 10 enteros y lo muestre usando una función para cargar y otra
-mostrar sin utilizar subíndices.*/
+/*5.3 Realizar una función que permita ingresar por teclado un valor entero, un flotante y un carácter. La función
+no debe retornar ningún valor. Las variables se declaran y se muestran en el programa principal*/
 
-#include<stdio.h>
+#include <stdio.h>
 
-void Carga(int []);
-void Mostrar (int[]);
-
-int main ()
+int main()
 {
-    int num[10];
-    Carga (num);
-    Mostrar(num);
+    int num,*pn;
+    float cod,*pcod;
+    char letra,*pletra;
+
+    printf("Ingrese un numero: ");
+    scanf("%d",&num);
+    pn=&num;
+    printf("\nIngrese un flotanto: ");
+    scanf("%f",&cod);
+    pcod= &cod;
+    getchar();
+    printf("\nIngrese una letra: ");
+    scanf("%c",&letra);
+    pletra=&letra;
+
+    printf("\nEl numero es %d, el flotante es %.2f, la letra es %c",*pn,*pcod,*pletra);
     return 0;
-}
-
-void Carga(int ve[])
-{
-    for (int i = 0; i < 10; i++)
-    {
-        printf("Ingrese un numero: ");
-        scanf(" %d",(ve+i));
-    }    
-}
-
-void Mostrar (int *ve)
-{
-    for (int i = 0; i < 10; i++)
-    {
-        printf("%d\n",*(ve+i));
-    }
 }
