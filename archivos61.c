@@ -11,10 +11,11 @@ c. Leer los datos del archivo, mediante la Función LECTURA*/
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 typedef struct 
 {
     int dni;
-    char apynm[80];
+    char apynm[81];
     int n1,n2;
     float promedio;
 }sComputacion;
@@ -36,7 +37,13 @@ int main ()
     {
         getchar();
         printf("\nIngresar Nombre y Apellido: ");
-        gets(alumno.apynm);
+        fgets(alumno.apynm,81,stdin);
+        int largo=strlen(alumno.apynm);
+        if (alumno.apynm[largo-1]=='\n')
+        {
+            alumno.apynm[largo-1]='\0';
+        }
+        
         printf("\nIngrese nota 1: ");
         scanf("%d",&alumno.n1);
         printf("\nIngrese nota 2: ");
