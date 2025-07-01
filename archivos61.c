@@ -10,7 +10,7 @@ c. Leer los datos del archivo, mediante la Función LECTURA*/
 
 #include <stdio.h>
 #include <string.h>
-
+#include <stdlib.h>
 typedef struct 
 {
     int dni;
@@ -23,11 +23,11 @@ int main ()
 {
     sComputacion alumno;
     FILE *arch;
-    arch= fopen("ALUMNOS.dat","wb");
+    arch= fopen("ALUMNOS.dat","w+b");//r+b es lectura y escritura , pero el archivo debe existir, w+b es lectura y escritura pero crea el archivo
     if (arch==NULL)
     {
         printf("Archivo inexistente");
-        getch ();
+        getchar ();
         exit (1);
     }
     printf("Ingrese DNI: ");
@@ -37,9 +37,9 @@ int main ()
         getchar();
         printf("\nIngresar Nombre y Apellido: ");
         gets(alumno.apynm);
-        printf("Ingrese nota 1: ");
+        printf("\nIngrese nota 1: ");
         scanf("%d",&alumno.n1);
-        printf("Ingrese nota 2: ");
+        printf("\nIngrese nota 2: ");
         scanf("%d",&alumno.n2);
         alumno.promedio=(alumno.n1+alumno.n2)/2;
         fwrite(&alumno,sizeof(sComputacion),1,arch);
@@ -47,6 +47,14 @@ int main ()
         printf("Ingrese DNI: ");
         scanf("%d",&alumno.dni);
     }
+    rewind(arch);
+    fread(&alumno,sizeof(sComputacion),1,arch);
+    while (!feof(arch))//
+    {
+        printf("DNI: %d, Apellido y Nombre: %s,Nota1: %d, Nota 2: %d,Promedio: %.2f\n",alumno.dni,alumno.apynm,alumno.n1,alumno.n2,alumno.promedio);
+        fread(&alumno,sizeof(sComputacion),1,arch);
+    }
+    
     fclose(arch);
     
     return 0;
