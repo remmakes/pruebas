@@ -29,31 +29,60 @@ int main()
     FILE* CURSADO;
     FILE* REPROBADOS;
     archivo=fopen("ALUMNOS.dat","rb");
-    PROMOCIONADOS=fopen("PROMOCIONADOS.dat","wb");
-    CURSADO=fopen("CURSADO.dat","wb");
-    REPROBADOS=fopen("REPROBADOS.dat","wb");
+
     if (archivo==NULL)
     {
         printf("Archivo inexistente");
         getchar ();
         exit (1);
     }
-
-    rewind(archivo);
+    PROMOCIONADOS=fopen("PROMOCIONADOS.dat","wb");
+    CURSADO=fopen("CURSADO.dat","wb");
+    REPROBADOS=fopen("REPROBADOS.dat","wb");
     fread(&alumnos,sizeof(sComputacion),1,archivo);
     while(!feof(archivo))
     {
-        if (alumnos.n1>7 && alumnos.n2>7)
+        if (alumnos.n1>=7 && alumnos.n2>=7)
         {
             fwrite(&alumnos,sizeof(sComputacion),1,PROMOCIONADOS);
         }
-        else if ((alumnos.n1>=4 && alumnos.n2>=4) && (alumnos.n1>7 && alumnos.n2<7))
+        else if (alumnos.n1 >= 4 && alumnos.n2 >= 4)
         {
             fwrite(&alumnos,sizeof(sComputacion),1,CURSADO);
         }
         else
         {
             fwrite(&alumnos,sizeof(sComputacion),1,REPROBADOS);
-        }        
+        }
+        fread(&alumnos,sizeof(sComputacion),1,archivo);        
     }
+    fclose(archivo);
+    fclose(PROMOCIONADOS);
+    fclose(CURSADO);
+    fclose(REPROBADOS);
+    mostrararchivo("PROMOCIONADOS.dat");
+    mostrararchivo("CURSADO.dat");
+    mostrararchivo("REPROBADOS.dat");
+
+    return 0;
+}
+
+void mostrararchivo(char* nombre)
+{
+    FILE* archivo;
+    sComputacion alumnos;
+    archivo=fopen(nombre,"rb");
+    if (archivo==NULL)
+    {
+        printf("No se puede abrir el archivo: %s",nombre);
+        return;
+    }
+
+    fread(&alumnos,sizeof(sComputacion),1,archivo);
+    while (!feof(archivo))
+    {
+        printf("DNI: %d, Apellido y nombre: %s, Nota1: %d,Nota2: %d, Promedio: %.2f",alumnos.dni,alumnos.apynm,alumnos.n1,alumnos.n2,alumnos.promedio);
+        fread(&alumnos,sizeof(sComputacion),1,archivo);
+    }
+    fclose(archivo);    
 }
