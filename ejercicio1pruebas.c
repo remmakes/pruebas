@@ -41,13 +41,14 @@ int main()
         exit (1);
     }
     Ingresoclientes("registro.dat");
-
+    int encontrado=0;
     printf("Ingrse numero de cliente a buscar: ");
     scanf("%d",&n_buscar);
     while (n_buscar!=0)
     {
         rewind(pf);
-        int encontrado=0;
+        encontrado=0;
+        
         fread(&cliente,sizeof(sRegistro),1,pf);
         while (!feof(pf))
         {
@@ -81,11 +82,12 @@ int main()
         }
         printf("Ingrse numero de cliente a buscar: ");
         scanf("%d",&n_buscar);
+        if (encontrado==0)
+        {
+            printf("Cliente inexistente");
+        }
     }
-    if (encontrado==0)
-    {
-                printf("Cliente inexistente");
-            }
+
     
     return 0;
 }
