@@ -81,7 +81,7 @@ void mostrararchivo(char* nombre)
     fread(&alumnos,sizeof(sComputacion),1,archivo);
     while (!feof(archivo))
     {
-        printf("DNI: %d, Apellido y nombre: %s, Nota1: %d,Nota2: %d, Promedio: %.2f",alumnos.dni,alumnos.apynm,alumnos.n1,alumnos.n2,alumnos.promedio);
+        printf("DNI: %d, Apellido y nombre: %s, Nota1: %d,Nota2: %d, Promedio: %.2f\n",alumnos.dni,alumnos.apynm,alumnos.n1,alumnos.n2,alumnos.promedio);
         fread(&alumnos,sizeof(sComputacion),1,archivo);
     }
     fclose(archivo);    
