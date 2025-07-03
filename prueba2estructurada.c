@@ -25,6 +25,7 @@ typedef struct
     char sexo;
 }sCurso;
 
+void Sexo(FILE*);
 sCurso Busqueda(FILE*,int);
 
 int main ()
@@ -88,7 +89,41 @@ int main ()
         scanf("%d",&numdni); 
         buscar=Busqueda(archivo,numdni);
         }              
-    }          
+    }   
+    //b. En el momento que ya no quede cupo en el curso se registrará en el archivo Aspirantes.dat los alumnos en lista de espera.
+    FILE *arch2;
+    if (nuevosi>30)
+    {
+        arch2=fopen("Aspirantes.dat","wb");
+        if (arch2==NULL)
+        {
+            printf("\nError al crear al archivo");
+            exit(1);
+        }
+        printf("\nIngrese numero de dni: ");
+        scanf("%d",&inscriptos.dni);
+        
+        while (inscriptos.dni>0)
+        {
+            getchar();
+            printf("Ingrese apellido y nombre: ");
+            gets(inscriptos.apynmp);
+            printf("\nIngrese turno: ");
+            scanf("%c",&inscriptos.turno);
+            getchar();
+            printf("\nIngrese sexo: ");
+            scanf("%c",&inscriptos.sexo);
+            fwrite(&inscriptos,sizeof(sCurso),1,arch2);
+
+            printf("\nIngrese numero de dni: ");
+            scanf("%d",&inscriptos.dni);
+        }
+    }
+    Sexo(archivo);
+    fclose(archivo);
+    fclose(arch2);
+    //c. Informar el porcentaje de alumnos de sexo femenino y masculino inscriptos al finalizar el programa correspondiente al archivo Curso.dat*/
+    
     return 0;
 }
 
@@ -113,3 +148,25 @@ sCurso Busqueda(FILE* archivo,int nb)
     }
     return registro;
 };
+
+void Sexo(FILE* archivo)
+{
+    sCurso recorrer;
+    rewind(archivo);
+    int masculino=0,femenino=0;
+    fread(&recorrer,sizeof(sCurso),1,archivo);
+    while (!feof(archivo))
+    {
+        if(recorrer.sexo=='F')
+        {
+            femenino++;
+        }
+        else if (recorrer.sexo=='M')
+        {
+            masculino++;
+        }
+        fread(&recorrer,sizeof(sCurso),1,archivo);
+    }
+    printf("\nLa porcentaje total de alumnos MASCULINOS es: %.2f %",((masculino+femenino)/masculino)*100.00);
+    printf("\nLa porcentaje total de alumnos FEMENINOS es: %.2f %",((masculino+femenino)/femenino)*100.00);
+}
