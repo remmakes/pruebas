@@ -30,13 +30,13 @@ int main()
     while (numprod!=0)
     {
         encontrado=Busqueda(productos,numprod);
-        if (encontrado!=0)
+        if (encontrado!=-1)
         {
             printf("\nIngrese la cantidad solicitada: ");
             scanf("%d",&cantidad);
             ventas[encontrado]+=cantidad;
-        }else if(encontrado==0)
-            printf("Producto no encontrado");
+        }
+            
 
         printf("\nIngrese codigo de producto (0 para salir): ");
         scanf("%d",&numprod);
@@ -95,16 +95,16 @@ int leyvalida(int li,int ls,int cierre)
 
 int Busqueda(int vector[],int nb)
 {
-    int i,encuentra=0;
+    int i;
     for ( i = 0; i < 10; i++)
     {
         if (vector[i]==nb)
         {
-            encuentra=i;
+            return i;
         }
         
     }
-    return encuentra;
+    return -1;
 
 }
 
@@ -116,10 +116,38 @@ void Mayor(int productos[],int ventas[])
         if (ventas[i]>mayor)
         {
             mayor=ventas[i];
-            identi=i;
         }
-        
     }
-    printf("El producto que mayor ventas tuvo es %d,con %d unidades vendidas",productos[identi] ,mayor);
-    
+    printf("El producto que mayor ventas tuvo es %d,con ",mayor);
+    for ( i = 0; i < 10; i++)
+    {
+        if (ventas[i]==mayor)
+        {
+            printf(" %d",productos[i]);
+        }
+    }
 }
+
+//c) El / los productos del cual se solicitaron menos cantidad de unidades.*/
+
+void Menor(int productos[],int ventas[])
+{
+    int i,menor=ventas[0],identi;
+    for ( i = 1; i < 10; i++)
+    {
+        if (ventas[i]<menor)
+        {
+            menor=ventas[i];
+        }
+    }
+    printf("El producto que mayor ventas tuvo es %d,con ",menor);
+    for ( i = 0; i < 10; i++)
+    {
+        if (ventas[i]==menor)
+        {
+            printf(" %d",productos[i]);
+        }
+    }
+}
+
+//Hay que pulir pero esta bien segun chat
