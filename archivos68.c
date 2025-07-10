@@ -31,7 +31,7 @@ typedef struct
     int numv;
 }sAero;
 
-void Actualizo(FILE *,FILE *,char);
+void Actualizo(FILE *,FILE *,char );
 
 int main ()
 {
@@ -48,7 +48,26 @@ int main ()
     }
     Actualizo(archivo,archpasajero,'Aero1');
     fclose(archivo);
+    fclose(archpasajero);
 
+    return 0;
 }
 
-void Actualizo
+void Actualizo (FILE* archivo,FILE * archpasajero,char palabra)
+{
+    sRegistro vuelo;
+    sAero pasajero;
+    fread(&pasajero,sizeof(sAero),1,archpasajero);
+    while (!feof(archpasajero))
+    {
+        fread(&vuelo,sizeof(sRegistro),1,archivo);
+        if (strcmpi(palabra,vuelo.cod)==0)
+        {
+            fseek(archivo,sizeof(sRegistro)*-1,SEEK_CUR);
+            fwrite(&vuelo,sizeof(sRegistro),1,archivo);
+            fflush(archivo);
+        }
+        
+    }
+    
+}
