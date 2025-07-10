@@ -36,11 +36,17 @@ int main ()
     }
 
     Ordenamiento(productos,15);
-    printf("\nIngrese numero de vendedor: ");
+    printf("\nIngrese numero de vendedor (Del 1001 al 1005): ");
     scanf("%d",&vendedoraux);
     while (vendedoraux!=0)
     {
-        /* code */
+        pos=Busqueda(vendedores,vendedoraux,5);
+        if (pos!=-1)
+        {
+            printf("\nIngrese el producto deseado: ");
+            scanf("%d",&cantidad);            
+        }
+            
     }
     
     return 0;
