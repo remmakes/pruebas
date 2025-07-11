@@ -147,3 +147,39 @@ void Listaganadora(int votaciones[][17])
     }
     printf("\nLa lista ganadora fue %d con %d votos",listag+1,max);
 }
+
+/*d)Mostrar la cantidad de votos de la lista numero 10 de cada comuna ordenados de mayor a menor.Se debe visualizar
+el numero de comuna y la cantidad de votos.Para el ordenamiento utilizar una funcino*/
+void Lista10(int votaciones[][17])
+{
+    int cantvotos[15]={0},comuna[15]={0};
+    int aux,aux2,i,j;
+    for (int i = 0; i < 15; i++)
+    {
+        cantvotos[i]=votaciones[i][9];
+        comuna[i]=i;
+    }
+    
+    for ( i = 0; i < 15; i++)
+    {
+        for(j=0;j<15-1-i;j++)
+        {
+        if (cantvotos[j]<cantvotos[j+1])
+        {
+            aux=cantvotos[j];
+            cantvotos[j]=cantvotos[j+1];
+            cantvotos[j+1]=aux;
+
+            aux2=comuna[j];
+            comuna[j]=comuna[j+1];
+            comuna[j+1]=aux2;
+        }
+        }
+    }
+
+    for (int i = 0; i < 15; i++)
+    {
+        printf("\nLa comuna %d recibio %d votos",comuna[i],cantvotos[i]);
+    }
+    
+}
