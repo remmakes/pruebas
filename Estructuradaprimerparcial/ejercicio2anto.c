@@ -1,4 +1,4 @@
-/*/*Realizar un programa en lenguaje C, que permita actualizar los precios de productos en
+/*Realizar un programa en lenguaje C, que permita actualizar los precios de productos en
 forma individual. La empresa trabaja con 100 productos con la siguiente estructura:
 . Código (entero) (100-999)
 . Desc (30)
@@ -22,20 +22,20 @@ typedef struct
     char desc[31];
     float precio;
     int stock;
+    float recaudado;
 } sEmpresa;
 
 void Carga(sEmpresa[], int);
-int leyvalida(int, int);
+int leyvalida(int, int,int);
 int Busqueda(sEmpresa[], int, int);
 
 int main()
 {
     sEmpresa productos[100];
     int codigoaux, pos, unidadesv;
-    float acumuladordia[100] = {0};
     Carga(productos, 100);
     printf("\nIngrese codigo a procesar: ");
-    scanf("%d", &codigoaux);
+    codigoaux=leyvalida(100,999,0);
     while (codigoaux != 0)
     {
         pos = Busqueda(productos, codigoaux, 100);
@@ -46,7 +46,7 @@ int main()
             if (productos[pos].stock >= unidadesv)
             {
                 productos[pos].stock -= unidadesv;
-                acumuladordia[pos] = (unidadesv * productos[pos].precio);
+                productos[pos].recaudado += (unidadesv * productos[pos].precio);
             }
             else
                 printf("\nCantidad insuficiente en stock");
@@ -61,9 +61,9 @@ int main()
 
     for (int i = 0; i < 100; i++)
     {
-        if (acumuladordia[i] > 0)
+        if (productos[i].recaudado > 0)
         {
-            printf("\nEl producto %d vendio %.2f en el dia", productos[i], acumuladordia[i]);
+            printf("\n%s con codigo %d vendio %.2f en el dia",productos[i].desc, productos[i].cod, productos[i].recaudado);
         }
     }
 
@@ -72,11 +72,22 @@ int main()
 
 void Carga(sEmpresa productos[], int ce)
 {
-    int i, largo;
+    int i, largo,precioaux,pos;
     for (i = 0; i < ce; i++)
     {
-        printf("\nIngrese codigo de producto: ");
-        productos[i].cod = leyvalida(100, 999);
+        do
+        {
+            printf("\nIngrese codigo de producto: ");
+            productos[i].cod = leyvalida(100, 999,999);
+            pos=Busqueda(productos,productos[i].cod,i);
+            if (pos>=0)
+            {
+                printf("\nCodigo repetido, ingrese otro");
+            }
+            
+        } while (pos!=-1);
+        
+      
         printf("\nIngrese descripcion del producto: ");
         getchar();
         fgets(productos[i].desc, 31, stdin);
@@ -85,14 +96,22 @@ void Carga(sEmpresa productos[], int ce)
         {
             productos[i].desc[largo - 1] = '\0';
         }
-        printf("\Ingrese precio del producto: ");
-        scanf("%f", &productos[i].precio);
-        printf("\nIngrese stock del producto: ");
-        scanf("%d", &productos[i].stock);
+        do
+        {
+            printf("\Ingrese precio del producto: ");
+            scanf("%f", &productos[i].precio);
+        } while (productos[i].precio<=0);
+        do
+        {
+            printf("\nIngrese stock del producto: ");
+            scanf("%d", &productos[i].stock);
+        } while (productos[i].stock<=0);
+        
+
     }
 }
 
-int leyvalida(int li, int ls)
+int leyvalida(int li, int ls,int cierre)
 {
     int x, band = 0;
     do
@@ -104,7 +123,7 @@ int leyvalida(int li, int ls)
         band = 1;
         scanf("%d", &x);
 
-    } while (x < li || x > ls);
+    } while ((x < li || x > ls )&& x!=cierre);
     return x;
 }
 
